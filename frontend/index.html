@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HostelHub — Intelligent Hostel & Mess Management System</title>
+  <meta name="description" content="A modern, database-driven hostel and mess management system powered by a relational MySQL database. Student records, room allocations, mess dining, and PL/SQL queries.">
+  
+  <!-- Google Fonts: Space Grotesk, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Landing Page Stylesheet -->
+  <link rel="stylesheet" href="assets/landing.css">
+</head>
+<body>
+
+  <!-- Ambient Background Glow -->
+  <div class="bg-ambient-glow"></div>
+
+  <!-- ==============================================================================
+       SECTION 1: FLOATING NAVIGATION BAR
+       ============================================================================== -->
+  <div class="nav-wrapper">
+    <nav class="floating-nav">
+      <a href="#home" class="brand-logo">
+        <div class="logo-badge">🏢</div>
+        <span class="brand-name">Hostel<span>Hub</span></span>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="#home" class="nav-link active">Home</a></li>
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#showcase" class="nav-link">Showcase</a></li>
+        <li><a href="#database" class="nav-link">Database</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li class="nav-menu-mobile-extra">
+          <a href="https://github.com/PatxShaurya/Hostable" target="_blank" rel="noopener noreferrer" class="nav-link">GitHub Repository ↗</a>
+        </li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="https://github.com/PatxShaurya/Hostable" target="_blank" rel="noopener noreferrer" class="btn-github">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          GitHub
+        </a>
+        <a href="/app" class="btn-launch" id="btn-nav-launch">Launch App →</a>
+        <button class="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false">☰</button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ==============================================================================
+       SECTION 2: ANIMATED HERO SECTION (Matching Reference Images 1 & 2)
+       ============================================================================== -->
+  <section class="hero-section" id="home">
+    <!-- Dynamic SVG connection line canvas -->
+    <svg class="hero-connections-canvas" id="hero-connections-svg"></svg>
+
+    <!-- Floating UI Cards Arranged Around Central Headline -->
+    <div class="hero-floating-container">
+      
+      <!-- Card 1: Student Profile (Top Left) -->
+      <div class="float-card card-student-1">
+        <div class="avatar-circle avatar-coral">AS</div>
+        <div class="float-card-info">
+          <h4>Aarav Sharma</h4>
+          <p>2502051284 • B.Tech CSE</p>
+          <span class="tag-badge tag-success">● Room 204 Allocated</span>
+        </div>
+      </div>
+
+      <!-- Card 2: 3D Checkmark / Capacity Indicator (Center Top) -->
+      <div class="float-card card-center-top">
+        <div class="icon-box-violet">✓</div>
+        <div class="float-card-info">
+          <h4>Room 102 (AC 2-Bed)</h4>
+          <p>Occupancy 2/2 • 100% Capacity</p>
+          <span class="tag-badge tag-violet">ACID Verified</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Annual Fee Status (Top Right) -->
+      <div class="float-card card-fee">
+        <div class="icon-box-coral">₹</div>
+        <div class="float-card-info">
+          <h4>Annual Mess Fee</h4>
+          <p>₹80,000 • Bluedove • 2026-27</p>
+          <span class="tag-badge tag-success">● Paid Online</span>
+        </div>
+      </div>
+
+      <!-- Card 4: Mess Dining Card (Bottom Left) -->
+      <div class="float-card card-mess">
+        <div class="icon-box-cyan">🍽️</div>
+        <div class="float-card-info">
+          <h4>Bluspring Mess</h4>
+          <p>Paneer Butter Masala, Roti, Dal</p>
+          <span class="tag-badge tag-amber">Dinner Active</span>
+        </div>
+      </div>
+
+      <!-- Card 5: Student Profile 2 (Bottom Right) -->
+      <div class="float-card card-student-2">
+        <div class="avatar-circle avatar-violet">SP</div>
+        <div class="float-card-info">
+          <h4>Sneha Patel</h4>
+          <p>2502052356 • 2nd Year ECE</p>
+          <span class="tag-badge tag-success">● Bluedove Mess Active</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Central Hero Headline & CTAs -->
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge-pill">
+          <span class="badge-dot"></span>
+          <span>A Database-Driven Hostel Management System</span>
+        </div>
+
+        <h1 class="hero-title">
+          Hostel Life,<br>
+          <span class="gradient-text">Simplified.</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          One connected platform to manage students, rooms and mess operations — powered by a relational MySQL database.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="/app" class="btn-primary-lg" id="hero-btn-launch">
+            Launch App →
+          </a>
+          <a href="#features" class="btn-secondary-lg">
+            Explore Features ↓
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <a href="#problem-solution" class="hero-scroll-indicator">
+      <span>Scroll to explore</span>
+      <span>↓</span>
+    </a>
+  </section>
+
+  <!-- ==============================================================================
+       SECTION 3: PROBLEM & SOLUTION / PRODUCT INTRODUCTION
+       ============================================================================== -->
+  <section id="problem-solution" style="background: #FFFFFF;">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">The System Philosophy</span>
+        <h2 class="section-title">Everything your hostel needs.<br>One connected system.</h2>
+        <p class="section-desc">
+          Conventional hostel administrations struggle with desynchronized spreadsheets, paper mess registers, and inaccurate vacancy counts. HostelHub connects every touchpoint through a strict relational database architecture.
+        </p>
+      </div>
+
+      <div class="problem-solution-grid">
+        <!-- Block 1: Before -->
+        <div class="process-card">
+          <span class="process-step-num">01 / The Challenge</span>
+          <h3>Disconnected Silos</h3>
+          <p>
+            Student admissions live in one file, room vacancy counts in another, and mess registrations on physical registers. Double room allocations and unbilled dining fees become inevitable.
+          </p>
+        </div>
+
+        <!-- Block 2: The System -->
+        <div class="process-card process-card-highlight">
+          <span class="process-step-num">02 / The Architecture</span>
+          <h3>Centralized Relational Core</h3>
+          <p>
+            15 relational tables enforce referential integrity using cascading foreign keys, automated bed-count triggers, and PL/SQL stored procedures. Room allocation changes immediately update floor inventory and student status in real-time.
+          </p>
+        </div>
+
+        <!-- Block 3: Result -->
+        <div class="process-card">
+          <span class="process-step-num">03 / The Outcome</span>
+          <h3>Seamless Integrity</h3>
+          <p>
+            Wardens, mess caterers, and students access a unified single source of truth. Zero ghost rooms, accurate bed counts, transparent annual fee billing, and instant analytical query benchmarks.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================================================
+       SECTION 4: FEATURES SHOWCASE (BENTO GRID)
+       ============================================================================== -->
+  <section id="features">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">System Capabilities</span>
+        <h2 class="section-title">Designed for the way hostels actually work.</h2>
+        <p class="section-desc">
+          Engineered around real university residential requirements with complete database-backed verification across all administrative operations.
+        </p>
+      </div>
+
+      <div class="bento-grid">
+        
+        <!-- Bento 1: Student Management (Wide) -->
+        <div class="bento-card bento-card-wide">
+          <div class="bento-icon-box" style="background: #EEF2FF; color: #4F46E5;">🎓</div>
+          <h3>Student Directory & Master Records</h3>
+          <p>
+            Full student lifecycle management with registration number validation, academic branches, study year, emergency guardian contacts, and phone verification constraints.
+          </p>
+          <div class="mini-preview-box">
+            <div class="mini-preview-row">
+              <span><strong>Rahul Sharma</strong> (2502051406)</span>
+              <span class="tag-badge tag-success">CSE • Year 2</span>
+            </div>
+            <div class="mini-preview-row">
+              <span><strong>Priya Patel</strong> (2502052139)</span>
+              <span class="tag-badge tag-violet">ECE • Year 2</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bento 2: Room Allocation -->
+        <div class="bento-card">
+          <div class="bento-icon-box" style="background: #ECFEFF; color: #0891B2;">🛏️</div>
+          <h3>Intelligent Room Allocation</h3>
+          <p>
+            Stored procedure <code>AllocateRoom</code> executes bed-capacity checks and single-allocation constraints before reserving room space.
+          </p>
+          <div class="mini-preview-box">
+            <div class="mini-preview-row">
+              <span>Room 201 (AC 2-Bed)</span>
+              <span style="color: #10B981; font-weight: 700;">1 Bed Free</span>
+            </div>
+            <div class="mini-preview-row">
+              <span>Room 305 (AC 3-Bed, 1st Year)</span>
+              <span style="color: #EF4444; font-weight: 700;">Full (3/3)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bento 3: Mess & Dining -->
+        <div class="bento-card">
+          <div class="bento-icon-box" style="background: #FFF7ED; color: #EA580C;">🥗</div>
+          <h3>Mess & Rotational Menus</h3>
+          <p>
+            Two co-ed messes (Bluspring and Bluedove) open to all hostels, weekly rotational menus across 4 meals/day, and caterer contract management.
+          </p>
+          <div class="mini-preview-box">
+            <div class="mini-preview-row">
+              <span>Bluspring Mess</span>
+              <span class="tag-badge tag-amber">₹80,000/yr</span>
+            </div>
+            <div class="mini-preview-row">
+              <span>Special Diet Caterer</span>
+              <span class="tag-badge tag-success">Contract Active</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bento 4: Annual Fee Tracking -->
+        <div class="bento-card">
+          <div class="bento-icon-box" style="background: #FFF1F2; color: #E11D48;">📋</div>
+          <h3>Annual Fee Tracking</h3>
+          <p>
+            Records annual hostel and mess fee payments per academic year and flags students who have not paid yet.
+          </p>
+          <div class="mini-preview-box">
+            <div class="mini-preview-row">
+              <span>Hostel: 3-Bed AC (1st Year)</span>
+              <span class="tag-badge tag-success">₹2,72,000/yr</span>
+            </div>
+            <div class="mini-preview-row">
+              <span>Hostel: 2-Bed AC</span>
+              <span class="tag-badge tag-amber">₹2,65,000/yr</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bento 5: Database Triggers & Automation -->
+        <div class="bento-card">
+          <div class="bento-icon-box" style="background: #F5F3FF; color: #7C3AED;">⚡</div>
+          <h3>Automated Trigger Logic</h3>
+          <p>
+            Database triggers automatically update room occupancy on allocation inserts/updates and prevent students from having duplicate active rooms.
+          </p>
+          <div class="mini-preview-box">
+            <div class="mini-preview-row">
+              <span><code>trg_alloc_after_insert</code></span>
+              <span style="font-family: var(--font-mono); font-size: 0.74rem;">Active</span>
+            </div>
+            <div class="mini-preview-row">
+              <span><code>trg_single_active</code></span>
+              <span style="font-family: var(--font-mono); font-size: 0.74rem;">Enforcing</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================================================
+       SECTION 5: DETAILED FUNCTIONALITY SHOWCASE TABS
+       ============================================================================== -->
+  <section id="showcase" style="background: #FFFFFF;">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Interactive Product Tour</span>
+        <h2 class="section-title">See each module in detail.</h2>
+        <p class="section-desc">
+          Explore the exact interfaces and database transactions implemented across student admissions, room assignments, dining, and SQL execution.
+        </p>
+      </div>
+
+      <div class="showcase-wrapper">
+        <!-- Showcase Tab Controller -->
+        <div class="showcase-tab-bar">
+          <button class="showcase-tab-btn active" data-target="tab-panel-students">Students</button>
+          <button class="showcase-tab-btn" data-target="tab-panel-rooms">Rooms</button>
+          <button class="showcase-tab-btn" data-target="tab-panel-mess">Mess & Dining</button>
+          <button class="showcase-tab-btn" data-target="tab-panel-sql">SQL Console</button>
+        </div>
+
+        <!-- Panel A: Students -->
+        <div class="showcase-panel active" id="tab-panel-students">
+          <div class="showcase-copy">
+            <h3>Student Profile Master</h3>
+            <p>
+              Provides centralized student admission management with instant search, multi-field filtering by branch and year, and full Insert/Update/Delete capabilities.
+            </p>
+            <ul class="showcase-features-list">
+              <li><span class="check-icon">✓</span> Unique registration number enforcement (e.g. 2502051234)</li>
+              <li><span class="check-icon">✓</span> Branch validation across CSE, ECE, ME, IT, EEE, Biotech</li>
+              <li><span class="check-icon">✓</span> Emergency parent & guardian contact numbers</li>
+              <li><span class="check-icon">✓</span> Foreign key linkage to room allocations and mess registers</li>
+            </ul>
+            <a href="/app" class="btn-primary-lg" style="font-size: 0.9rem; padding: 10px 20px;">Open Student Directory →</a>
+          </div>
+          <div class="showcase-mockup">
+            <div class="mockup-header-bar">
+              <span style="font-weight: 700; font-size: 0.9rem;">Student Directory (Live Preview)</span>
+              <span class="tag-badge tag-success">12 Master Records</span>
+            </div>
+            <table class="mockup-table">
+              <thead>
+                <tr>
+                  <th>Reg No</th>
+                  <th>Full Name</th>
+                  <th>Branch</th>
+                  <th>Year</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>2502051406</strong></td>
+                  <td>Rahul Sharma</td>
+                  <td>CSE</td>
+                  <td>Year 2</td>
+                </tr>
+                <tr>
+                  <td><strong>2502052139</strong></td>
+                  <td>Priya Patel</td>
+                  <td>ECE</td>
+                  <td>Year 2</td>
+                </tr>
+                <tr>
+                  <td><strong>2602062517</strong></td>
+                  <td>Amit Verma</td>
+                  <td>ME</td>
+                  <td>Year 1</td>
+                </tr>
+                <tr>
+                  <td><strong>2602063148</strong></td>
+                  <td>Ananya Iyer</td>
+                  <td>Civil</td>
+                  <td>Year 1</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Panel B: Rooms -->
+        <div class="showcase-panel" id="tab-panel-rooms">
+          <div class="showcase-copy">
+            <h3>Room Inventory & Allocation Engine</h3>
+            <p>
+              Maintains high-accuracy residential records across Boys and Girls hostel blocks, floors, and room types. Utilizes the stored procedure <code>AllocateRoom</code>.
+            </p>
+            <ul class="showcase-features-list">
+              <li><span class="check-icon">✓</span> Hierarchical entity structure: Hostel → Block → Floor → Room</li>
+              <li><span class="check-icon">✓</span> All-AC rooms: 3-bed for 1st years in Sem 1, 2-bed from Sem 2, annual fees</li>
+              <li><span class="check-icon">✓</span> Automated bed vacancy calculation with stored function <code>AvailableBeds()</code></li>
+              <li><span class="check-icon">✓</span> Room release and checkout with <code>VacateRoom</code> procedure</li>
+            </ul>
+            <a href="/app" class="btn-primary-lg" style="font-size: 0.9rem; padding: 10px 20px;">Open Room Manager →</a>
+          </div>
+          <div class="showcase-mockup">
+            <div class="mockup-header-bar">
+              <span style="font-weight: 700; font-size: 0.9rem;">Room Allocations (Active Matrix)</span>
+              <span class="tag-badge tag-violet">Capacity: 28 Beds</span>
+            </div>
+            <table class="mockup-table">
+              <thead>
+                <tr>
+                  <th>Room</th>
+                  <th>Type</th>
+                  <th>Current Student</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Room 101</strong></td>
+                  <td>AC 2-Bed</td>
+                  <td>Rahul Sharma</td>
+                  <td><span class="tag-badge tag-success">Allocated</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Room 102</strong></td>
+                  <td>AC 2-Bed</td>
+                  <td>Priya Patel</td>
+                  <td><span class="tag-badge tag-success">Allocated</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Room 201</strong></td>
+                  <td>AC 3-Bed (1st Year)</td>
+                  <td>Amit Verma</td>
+                  <td><span class="tag-badge tag-success">Allocated</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Panel C: Mess -->
+        <div class="showcase-panel" id="tab-panel-mess">
+          <div class="showcase-copy">
+            <h3>Mess Operations & Weekly Dining</h3>
+            <p>
+              Handles dining registrations, fee payment entries, meal schedules, and feedback ratings with automated caterer tracking.
+            </p>
+            <ul class="showcase-features-list">
+              <li><span class="check-icon">✓</span> Two co-ed messes, Bluspring and Bluedove, shared by all hostels</li>
+              <li><span class="check-icon">✓</span> 7-Day rotational meal scheduling across Breakfast, Lunch, Snacks, Dinner</li>
+              <li><span class="check-icon">✓</span> Student feedback with 1–5 star ratings and comments</li>
+              <li><span class="check-icon">✓</span> Annual fee recording with Cash/Card/Online payment modes</li>
+            </ul>
+            <a href="/app" class="btn-primary-lg" style="font-size: 0.9rem; padding: 10px 20px;">Open Dining Portal →</a>
+          </div>
+          <div class="showcase-mockup">
+            <div class="mockup-header-bar">
+              <span style="font-weight: 700; font-size: 0.9rem;">Rotational Menu Preview</span>
+              <span class="tag-badge tag-amber">Week 1 Active</span>
+            </div>
+            <table class="mockup-table">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Meal Slot</th>
+                  <th>Scheduled Items</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Monday</strong></td>
+                  <td>Breakfast</td>
+                  <td>Idli, Sambar, Chutney, Tea / Coffee</td>
+                </tr>
+                <tr>
+                  <td><strong>Monday</strong></td>
+                  <td>Lunch</td>
+                  <td>Rice, Dal Tadka, Paneer Butter Masala, Curd</td>
+                </tr>
+                <tr>
+                  <td><strong>Tuesday</strong></td>
+                  <td>Dinner</td>
+                  <td>Chapati, Veg Korma, Jeera Rice, Gulab Jamun</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Panel D: SQL Execution Console (DBMS Highlight) -->
+        <div class="showcase-panel" id="tab-panel-sql">
+          <div class="showcase-copy">
+            <h3>Interactive PL/SQL Query Console</h3>
+            <p>
+              Direct SQL query execution testing against the database schema. Demonstrates joins, aggregations, window ranking, views, and stored routines.
+            </p>
+            <ul class="showcase-features-list">
+              <li><span class="check-icon">✓</span> 12 pre-catalogued system queries with execution benchmarking</li>
+              <li><span class="check-icon">✓</span> Multi-table relational joins with foreign key cascades</li>
+              <li><span class="check-icon">✓</span> Execution latency profiling (ms) and row count metrics</li>
+              <li><span class="check-icon">✓</span> SQL statement clipboard copying for evaluation</li>
+            </ul>
+            <a href="/app" class="btn-primary-lg" style="font-size: 0.9rem; padding: 10px 20px;">Open Full Query Console in App →</a>
+          </div>
+          <div class="sql-ide-container">
+            <div class="sql-ide-topbar">
+              <div class="sql-ide-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span style="font-family: var(--font-mono); font-size: 0.74rem; color: #8B949E;">Q1_Active_Room_Allocations.sql</span>
+              <button class="btn-launch" id="preview-run-sql-btn" style="padding: 4px 12px; font-size: 0.76rem;">▶ Run Query</button>
+            </div>
+            <div class="sql-ide-code-box">
+              <pre><code><span class="keyword">SELECT</span> s.reg_no, s.full_name, r.room_number, h.hostel_name
+<span class="keyword">FROM</span> <span class="table-name">Student</span> s
+<span class="keyword">JOIN</span> <span class="table-name">RoomAllocation</span> ra <span class="keyword">ON</span> s.student_id = ra.student_id
+<span class="keyword">JOIN</span> <span class="table-name">Room</span> r <span class="keyword">ON</span> ra.room_id = r.room_id
+<span class="keyword">JOIN</span> <span class="table-name">Floor</span> f <span class="keyword">ON</span> r.floor_id = f.floor_id
+<span class="keyword">JOIN</span> <span class="table-name">Block</span> b <span class="keyword">ON</span> f.block_id = b.block_id
+<span class="keyword">JOIN</span> <span class="table-name">Hostel</span> h <span class="keyword">ON</span> b.hostel_id = h.hostel_id
+<span class="keyword">WHERE</span> ra.status = <span class="string">'Active'</span>
+<span class="keyword">LIMIT</span> 5;</code></pre>
+            </div>
+            <div class="sql-ide-results">
+              <div class="sql-results-meta">
+                <span id="preview-sql-status"><span style="color: #3FB950;">● Executed</span></span>
+                <span id="preview-sql-latency">18.4 ms</span>
+                <span id="preview-sql-rows">5 records</span>
+              </div>
+              <table class="sql-results-table">
+                <thead>
+                  <tr>
+                    <th>reg_no</th>
+                    <th>full_name</th>
+                    <th>room_number</th>
+                    <th>hostel_name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2502051406</td>
+                    <td>Rahul Sharma</td>
+                    <td>101</td>
+                    <td>Boys Hostel B3</td>
+                  </tr>
+                  <tr>
+                    <td>2502052139</td>
+                    <td>Priya Patel</td>
+                    <td>102</td>
+                    <td>Girls Hostel G2</td>
+                  </tr>
+                  <tr>
+                    <td>2602062517</td>
+                    <td>Amit Verma</td>
+                    <td>201</td>
+                    <td>Boys Hostel B7</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================================================
+       SECTION 6: DATABASE ARCHITECTURE (The Technical Highlight)
+       ============================================================================== -->
+  <section id="database" class="database-section">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Relational Data Engine</span>
+        <h2 class="section-title">More than a dashboard.<br>A real relational database.</h2>
+        <p class="section-desc">
+          Explore how the system organizes hostel operations through 15 connected tables, referential integrity constraints, automated triggers, and PL/SQL stored procedures.
+        </p>
+      </div>
+
+      <div class="schema-explorer-card">
+        <div class="schema-diagram-header">
+          <div>
+            <h4>Interactive Schema Explorer</h4>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Click on any table below to inspect its schema, keys, and foreign-key relationships.</p>
+          </div>
+          <span class="schema-pill-tag">15 Tables • 3NF Normalized</span>
+        </div>
+
+        <!-- Interactive Table Grid (Core Tables) -->
+        <div class="schema-tables-grid">
+          <div class="table-node-card active" data-table="Student">
+            <div class="table-node-head">
+              <h5>Student</h5>
+              <span class="table-badge">PK: student_id</span>
+            </div>
+            <ul class="table-columns-list">
+              <li><span class="col-name">student_id</span> <span class="col-key key-pk">PK</span></li>
+              <li><span class="col-name">reg_no</span> <span class="col-key key-pk">UQ</span></li>
+              <li><span class="col-name">full_name</span></li>
+              <li><span class="col-name">branch</span></li>
+            </ul>
+          </div>
+
+          <div class="table-node-card" data-table="RoomAllocation">
+            <div class="table-node-head">
+              <h5>RoomAllocation</h5>
+              <span class="table-badge">Triggers Active</span>
+            </div>
+            <ul class="table-columns-list">
+              <li><span class="col-name">allocation_id</span> <span class="col-key key-pk">PK</span></li>
+              <li><span class="col-name">student_id</span> <span class="col-key key-fk">FK</span></li>
+              <li><span class="col-name">room_id</span> <span class="col-key key-fk">FK</span></li>
+              <li><span class="col-name">status</span></li>
+            </ul>
+          </div>
+
+          <div class="table-node-card" data-table="Room">
+            <div class="table-node-head">
+              <h5>Room</h5>
+              <span class="table-badge">Inventory</span>
+            </div>
+            <ul class="table-columns-list">
+              <li><span class="col-name">room_id</span> <span class="col-key key-pk">PK</span></li>
+              <li><span class="col-name">floor_id</span> <span class="col-key key-fk">FK</span></li>
+              <li><span class="col-name">room_type_id</span> <span class="col-key key-fk">FK</span></li>
+              <li><span class="col-name">current_occupancy</span></li>
+            </ul>
+          </div>
+
+          <div class="table-node-card" data-table="Mess">
+            <div class="table-node-head">
+              <h5>Mess</h5>
+              <span class="table-badge">Dining Facility</span>
+            </div>
+            <ul class="table-columns-list">
+              <li><span class="col-name">mess_id</span> <span class="col-key key-pk">PK</span></li>
+              <li><span class="col-name">hostel_id</span> <span class="col-key key-fk">FK</span></li>
+              <li><span class="col-name">caterer_id</span> <span class="col-key key-fk">FK</span></li>
+              <li><span class="col-name">annual_fee</span></li>
+            </ul>
+          </div>
+
+          <div class="table-node-card" data-table="MessRegistration">
+            <div class="table-node-head">
+              <h5>MessRegistration</h5>
+              <span class="table-badge">Subscription</span>
+            </div>
+            <ul class="table-columns-list">
+              <li><span class="col-name">mess_reg_id</span> <span class="col-key key-pk">PK</span></li>
+              <li><span class="col-name">student_id</span> <span class="col-key key-fk">FK</span></li>
+              <li><span class="col-name">mess_id</span> <span class="col-key key-fk">FK</span></li>
+              <li><span class="col-name">status</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Selected Table Details Drawer -->
+        <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-light);">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <h4 id="selected-table-name" style="font-family: var(--font-mono); font-size: 1.15rem; font-weight: 800;">Student</h4>
+              <span class="tag-badge tag-amber" id="selected-table-badge">Master Record</span>
+            </div>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Relational Foreign Keys Connected</span>
+          </div>
+          <p id="selected-table-desc" style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 12px;">
+            Core student records with unique registration numbers, branch, and contact details.
+          </p>
+          <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px;">
+            <div id="selected-table-cols"></div>
+            <div style="background: #FFFFFF; padding: 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+              <h6 style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;">Foreign Key Relationships</h6>
+              <div id="selected-table-rels"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Explanatory DBMS Concept Cards -->
+      <div class="db-concepts-grid">
+        <div class="concept-card">
+          <h4>3NF Normalization</h4>
+          <p>
+            Eliminates transitive dependencies across Student, Room, Caterer, and Dining records to guarantee zero data redundancy.
+          </p>
+        </div>
+
+        <div class="concept-card">
+          <h4>Triggers & Constraints</h4>
+          <p>
+            Automated bed-count increments and single-active checks ensure no student can ever be double-allocated.
+          </p>
+        </div>
+
+        <div class="concept-card">
+          <h4>Stored Procedures</h4>
+          <p>
+            <code>AllocateRoom</code>, <code>VacateRoom</code>, and <code>RegisterMess</code> encapsulate multi-step transactions with safety rollbacks.
+          </p>
+        </div>
+
+        <div class="concept-card">
+          <h4>Materialized Views</h4>
+          <p>
+            Views like <code>HostelOccupancy</code> and <code>StudentBillingSummary</code> deliver instant aggregated reporting without expensive ad-hoc joins.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==============================================================================
+       SECTION 9: PROJECT HIGHLIGHTS & DBMS LEARNING OUTCOMES
+       ============================================================================== -->
+  <section id="about">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-eyebrow">Academic DBMS Scope</span>
+        <h2 class="section-title">Built with full relational rigor.</h2>
+        <p class="section-desc">
+          Engineered as a comprehensive Database Management System project demonstrating normalization, referential integrity, automated triggers, stored routines, and transaction consistency.
+        </p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-number" data-target="15">15</div>
+          <div class="stat-label">Relational Tables</div>
+          <div class="stat-desc">Complete DDL with primary, foreign, unique, and check constraints.</div>
+        </div>
+
+        <div class="stat-box">
+          <div class="stat-number" data-target="4">4</div>
+          <div class="stat-label">Stored Procedures</div>
+          <div class="stat-desc">Transactional AllocateRoom, VacateRoom, RegisterMess and PayMessFee routines.</div>
+        </div>
+
+        <div class="stat-box">
+          <div class="stat-number" data-target="3">3</div>
+          <div class="stat-label">Stored Functions</div>
+          <div class="stat-desc">PL/SQL functions calculating bed availability and occupancy metrics.</div>
+        </div>
+
+        <div class="stat-box">
+          <div class="stat-number" data-target="12">12</div>
+          <div class="stat-label">Analytical Queries</div>
+          <div class="stat-desc">Covering window ranking, multi-joins, aggregations, and subqueries.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================================================
+       SECTION 10: FINAL CALL TO ACTION & FOOTER
+       ============================================================================== -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-banner-card">
+        <h2>Ready to explore the system?</h2>
+        <p>
+          Experience the live database management dashboard, allocate rooms, explore the weekly mess menus, and execute analytical SQL benchmarks.
+        </p>
+        <div class="cta-btn-group">
+          <a href="/app" class="btn-white-lg" id="cta-btn-launch">Launch App →</a>
+          <a href="https://github.com/PatxShaurya/Hostable" target="_blank" rel="noopener noreferrer" class="btn-ghost-lg">View on GitHub ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#home" class="brand-logo">
+            <div class="logo-badge">🏢</div>
+            <span class="brand-name">Hostel<span>Hub</span></span>
+          </a>
+          <p>
+            A database-driven residential and dining management system built with Express, Node.js, and MySQL.
+          </p>
+        </div>
+
+        <div class="footer-nav">
+          <div class="footer-col">
+            <h5>Navigation</h5>
+            <ul>
+              <li><a href="#home">Home</a></li>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#showcase">Showcase</a></li>
+              <li><a href="#database">Database</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h5>Technical</h5>
+            <ul>
+              <li><a href="/app">Launch Portal</a></li>
+              <li><a href="https://github.com/PatxShaurya/Hostable" target="_blank" rel="noopener noreferrer">Source Code</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h5>Course Attribution</h5>
+            <ul>
+              <li>Relational Database Management Systems Lab (CSC2131)</li>
+              <li>Shaurya Pathak (2502051505)</li>
+              <li>Vaibhav Saxena (2502052896)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 HostelHub — Academic Project Implementation. All rights reserved.</div>
+        <div>MySQL 8.0 • Express REST API • Modern Reactive UI</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/landing.js"></script>
+</body>
+</html>

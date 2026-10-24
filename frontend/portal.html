@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hostel and Mess Management System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+  <!-- Neo-Brutalist Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-logo-badge">HM</div>
+        <div class="brand-text">
+          <span class="brand-title">HOSTEL & MESS</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <nav class="nav-links">
+          <button class="nav-btn active" data-tab="tab-dashboard" id="btn-tab-dashboard">Overview</button>
+          <button class="nav-btn" data-tab="tab-students" id="btn-tab-students">Students</button>
+          <button class="nav-btn" data-tab="tab-rooms" id="btn-tab-rooms">Rooms & Allocations</button>
+          <button class="nav-btn" data-tab="tab-mess" id="btn-tab-mess">Mess & Dining</button>
+          <button class="nav-btn" data-tab="tab-queries" id="btn-tab-queries">PL/SQL Queries</button>
+        <a href="/" class="btn btn-outline btn-sm" style="text-decoration: none; font-weight: 700;" title="Return to Landing Page">← Landing Page</a>
+        <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark / Light Mode" aria-label="Toggle theme">
+          <span class="theme-icon" id="theme-icon">🌙</span>
+          <span class="theme-label" id="theme-label">Dark</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-body">
+
+    <!-- TAB 1: OVERVIEW -->
+    <section class="tab-content active" id="tab-dashboard">
+      <div class="section-hero">
+        <div class="hero-content">
+          <h1>System Overview</h1>
+          <p>Database management interface for residential allocations, dining operations, student profiles, and administrative inquiries.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="switchTab('tab-students'); openAddStudentModal();">Add Student</button>
+          <button class="btn btn-secondary" onclick="switchTab('tab-queries')">PL/SQL Queries</button>
+        </div>
+      </div>
+
+      <!-- KPI Stat Cards -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-data">
+            <span class="metric-label">Total Students</span>
+            <span class="metric-value" id="stat-total-students">--</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-data">
+            <span class="metric-label">Active Room Allocations</span>
+            <span class="metric-value" id="stat-active-allocations">--</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-data">
+            <span class="metric-label">Active Mess Registrations</span>
+            <span class="metric-value" id="stat-active-mess">--</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-data">
+            <span class="metric-label">Total Rooms</span>
+            <span class="metric-value" id="stat-total-rooms">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overview Grid -->
+      <div class="dashboard-grid">
+        <div class="card">
+          <div class="card-header">
+            <h3>Hostel Capacity and Occupancy Rates</h3>
+            <span class="badge badge-neutral">HostelOccupancy View</span>
+          </div>
+          <div class="card-body">
+            <div id="hostel-occupancy-list" class="occupancy-list">
+              <p class="loading-state">Loading occupancy metrics...</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>System Specifications</h3>
+            <span class="badge badge-neutral">Database Schema</span>
+          </div>
+          <div class="card-body tech-specs">
+            <ul class="spec-list">
+              <li><span class="spec-tag">Tables</span> 15 Relational Tables with Foreign Keys, Cascades and Checks</li>
+              <li><span class="spec-tag">PL/SQL Functions</span> AvailableBeds, HostelOccupancyPercentage, CountStudentsInMess</li>
+              <li><span class="spec-tag">PL/SQL Procedures</span> AllocateRoom, VacateRoom, RegisterMess, PayMessFee</li>
+              <li><span class="spec-tag">Triggers</span> Automated occupancy tracking and single active allocation constraints</li>
+              <li><span class="spec-tag">Queries</span> Analytical SQL queries including Window Ranking and Joins</li>
+              <li><span class="spec-tag">Operations</span> Insert, Update, and Delete across Students, Rooms and Mess</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: STUDENTS MANAGEMENT (CRUD) -->
+    <section class="tab-content" id="tab-students">
+      <div class="section-header">
+        <div>
+          <h2>Student Directory</h2>
+          <p class="section-desc">Manage student admissions, profiles, and contact records with Insert, Update, and Delete capabilities.</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="openAddStudentModal()">Add Student</button>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="search-box">
+          <input type="text" id="student-search-input" placeholder="Search by name, registration no, or email..." oninput="filterStudents()">
+        </div>
+        <div class="filter-selects">
+          <select id="student-branch-filter" onchange="filterStudents()">
+            <option value="">All Branches</option>
+            <option value="CSE">CSE</option>
+            <option value="ECE">ECE</option>
+            <option value="ME">ME</option>
+            <option value="Civil">Civil</option>
+            <option value="Law">Law</option>
+          </select>
+          <select id="student-year-filter" onchange="filterStudents()">
+            <option value="">All Years</option>
+            <option value="1">1st Year</option>
+            <option value="2">2nd Year</option>
+            <option value="3">3rd Year</option>
+            <option value="4">4th Year</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Students Table -->
+      <div class="table-container">
+        <table class="data-table" id="students-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Reg No</th>
+              <th>Student Name</th>
+              <th>Course / Branch</th>
+              <th>Year</th>
+              <th>Gender</th>
+              <th>Contact</th>
+              <th>Parent Contact</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="students-table-body">
+            <tr><td colspan="9" class="loading-state">Loading student records...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 3: ROOMS & ALLOCATIONS -->
+    <section class="tab-content" id="tab-rooms">
+      <div class="section-header">
+        <div>
+          <h2>Room Allocations and Inventory</h2>
+          <p class="section-desc">Manage residential assignments, monitor bed availability, and execute room checkout operations.</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="openAllocateRoomModal()">Allocate Room</button>
+        </div>
+      </div>
+
+      <!-- Active Allocations Table -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3>Active Room Allocations</h3>
+          <span class="badge badge-neutral">RoomAllocation Table</span>
+        </div>
+        <div class="table-container">
+          <table class="data-table" id="allocations-table">
+            <thead>
+              <tr>
+                <th>Alloc ID</th>
+                <th>Reg No</th>
+                <th>Student Name</th>
+                <th>Room No</th>
+                <th>Allocation Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="allocations-table-body">
+              <tr><td colspan="7" class="loading-state">Loading room allocations...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Available Rooms Grid -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Room Inventory and Capacity</h3>
+          <span class="badge badge-neutral">AvailableBeds Function</span>
+        </div>
+        <div class="card-body">
+          <div class="rooms-grid" id="rooms-inventory-grid">
+            <p class="loading-state">Loading room inventory...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: MESS & DINING -->
+    <section class="tab-content" id="tab-mess">
+      <div class="section-header">
+        <div>
+          <h2>Mess and Dining Management</h2>
+          <p class="section-desc">Dining facility registrations, fee payments, and weekly rotational menu scheduling.</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="openRegisterMessModal()">Register to Mess</button>
+          <button class="btn btn-secondary" onclick="openPaymentModal()">Record Payment</button>
+          <button class="btn btn-outline" onclick="openFeedbackModal()">Submit Feedback</button>
+        </div>
+      </div>
+
+      <!-- Mess Facilities List -->
+      <div class="mess-facilities-grid" id="mess-facilities-grid"></div>
+
+      <!-- Active Subscriptions Table -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3>Active Mess Memberships</h3>
+          <span class="badge badge-neutral">MessRegistration Table</span>
+        </div>
+        <div class="table-container">
+          <table class="data-table" id="mess-registrations-table">
+            <thead>
+              <tr>
+                <th>Reg ID</th>
+                <th>Reg No</th>
+                <th>Student Name</th>
+                <th>Dining Facility</th>
+                <th>Category</th>
+                <th>Annual Fee</th>
+                <th>Registration Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="mess-registrations-table-body">
+              <tr><td colspan="8" class="loading-state">Loading mess registrations...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Weekly Menu Explorer -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Rotational Menu Schedule</h3>
+          <div class="menu-filter">
+            <select id="menu-mess-select" onchange="loadMenu()">
+              <option value="1">Bluspring</option>
+              <option value="2">Bluedove</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="menu-items-grid" id="menu-items-grid">
+            <p class="loading-state">Select facility to view menu items...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: PL/SQL QUERIES -->
+    <section class="tab-content" id="tab-queries">
+      <div class="section-header">
+        <div>
+          <h2>PL/SQL Queries</h2>
+          <p class="section-desc">Interactive execution console for system queries, relational joins, views, window ranking, and PL/SQL stored routines.</p>
+        </div>
+      </div>
+
+      <div class="query-console-layout">
+        <!-- Sidebar / Query List -->
+        <div class="query-sidebar">
+          <div class="query-sidebar-header">
+            <h4>System Queries</h4>
+          </div>
+          <div class="query-buttons-list" id="query-buttons-list"></div>
+        </div>
+
+        <!-- Query Execution & Result Panel -->
+        <div class="query-main">
+          <div class="query-viewer-card card">
+            <div class="query-card-header">
+              <div>
+                <span class="badge badge-neutral" id="query-active-category">Category</span>
+                <h3 id="query-active-title">Select a query from the left panel</h3>
+              </div>
+              <button class="btn btn-primary btn-run" id="btn-run-query" onclick="executeCurrentQuery()">
+                Run Query
+              </button>
+            </div>
+            <p class="query-desc" id="query-active-desc">Click on any query in the catalog to inspect and run.</p>
+
+            <div class="sql-code-box">
+              <div class="sql-code-header">
+                <span>SQL / PL/SQL Statement</span>
+                <button class="btn-copy" onclick="copySqlCode()">Copy SQL</button>
+              </div>
+              <pre><code id="query-active-sql">-- Query statement will appear here</code></pre>
+            </div>
+
+            <!-- Execution Benchmark Bar -->
+            <div class="query-stats-bar" id="query-stats-bar" style="display: none;">
+              <div class="stat-pill">
+                <span class="label">Status:</span>
+                <span class="val success" id="query-exec-status">Executed</span>
+              </div>
+              <div class="stat-pill">
+                <span class="label">Latency:</span>
+                <span class="val" id="query-exec-time">-- ms</span>
+              </div>
+              <div class="stat-pill">
+                <span class="label">Rows Returned:</span>
+                <span class="val" id="query-exec-rows">--</span>
+              </div>
+            </div>
+
+            <!-- Query Results Table -->
+            <div class="query-result-table-container">
+              <table class="data-table" id="query-result-table">
+                <thead id="query-result-head"></thead>
+                <tbody id="query-result-body">
+                  <tr><td class="empty-state">Click 'Run Query' to execute query and view live tabular output.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODALS FOR CRUD OPERATIONS -->
+
+  <!-- Modal: Add / Edit Student (Insert / Update) -->
+  <div class="modal-backdrop" id="modal-student">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modal-student-title">Add Student</h3>
+        <button class="modal-close" onclick="closeModal('modal-student')">&times;</button>
+      </div>
+      <form id="form-student" onsubmit="handleStudentSubmit(event)">
+        <input type="hidden" id="student-form-id">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Registration Number</label>
+            <input type="text" id="student-regno" required placeholder="e.g. 2502051234">
+          </div>
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="student-fullname" required placeholder="e.g. Arjun Mehra">
+          </div>
+          <div class="form-group">
+            <label>Course</label>
+            <input type="text" id="student-course" required value="B.Tech">
+          </div>
+          <div class="form-group">
+            <label>Branch</label>
+            <select id="student-branch" required>
+              <option value="CSE">CSE</option>
+              <option value="ECE">ECE</option>
+              <option value="ME">ME</option>
+              <option value="Civil">Civil</option>
+              <option value="Law">Law</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Year of Study</label>
+            <select id="student-year" required>
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Gender</label>
+            <select id="student-gender" required>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text" id="student-phone" required placeholder="10-digit number">
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="student-email" required placeholder="name@domain.edu">
+          </div>
+          <div class="form-group">
+            <label>Parent Name</label>
+            <input type="text" id="student-parent-name" required placeholder="Parent / Guardian Name">
+          </div>
+          <div class="form-group">
+            <label>Parent Contact</label>
+            <input type="text" id="student-parent-contact" required placeholder="Emergency Contact Phone">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modal-student')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btn-student-submit">Save Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Allocate Room -->
+  <div class="modal-backdrop" id="modal-allocate">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3>Allocate Room</h3>
+        <button class="modal-close" onclick="closeModal('modal-allocate')">&times;</button>
+      </div>
+      <form id="form-allocate" onsubmit="handleAllocateSubmit(event)">
+        <p class="modal-subtitle">Executes stored procedure <code>AllocateRoom(student_id, room_id)</code> with bed capacity and allocation verification.</p>
+        <div class="form-group mb-3">
+          <label>Select Student</label>
+          <select id="allocate-student-select" required></select>
+        </div>
+        <div class="form-group mb-3">
+          <label>Select Room</label>
+          <select id="allocate-room-select" required></select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modal-allocate')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Confirm Allocation</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Register Mess -->
+  <div class="modal-backdrop" id="modal-mess-reg">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3>Register Mess Subscription</h3>
+        <button class="modal-close" onclick="closeModal('modal-mess-reg')">&times;</button>
+      </div>
+      <form id="form-mess-reg" onsubmit="handleMessRegSubmit(event)">
+        <p class="modal-subtitle">Executes procedure <code>RegisterMess(student_id, mess_id)</code> to update active membership.</p>
+        <div class="form-group mb-3">
+          <label>Select Student</label>
+          <select id="messreg-student-select" required></select>
+        </div>
+        <div class="form-group mb-3">
+          <label>Select Dining Facility</label>
+          <select id="messreg-mess-select" required></select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modal-mess-reg')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Confirm Membership</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Record Mess Fee Payment -->
+  <div class="modal-backdrop" id="modal-payment">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3>Record Fee Payment</h3>
+        <button class="modal-close" onclick="closeModal('modal-payment')">&times;</button>
+      </div>
+      <form id="form-payment" onsubmit="handlePaymentSubmit(event)">
+        <div class="form-group mb-3">
+          <label>Select Active Membership</label>
+          <select id="payment-reg-select" required></select>
+        </div>
+        <div class="form-grid mb-3">
+          <div class="form-group">
+            <label>Amount (INR)</label>
+            <input type="number" step="0.01" id="payment-amount" required placeholder="80000.00">
+          </div>
+          <div class="form-group">
+            <label>Academic Year (YYYY-YY)</label>
+            <input type="text" id="payment-month" required value="2026-27" placeholder="2026-27">
+          </div>
+          <div class="form-group">
+            <label>Payment Mode</label>
+            <select id="payment-mode" required>
+              <option value="Online">Online Transfer</option>
+              <option value="Card">Card</option>
+              <option value="Cash">Cash</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Payment Date</label>
+            <input type="date" id="payment-date">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modal-payment')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Record Payment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Submit Feedback -->
+  <div class="modal-backdrop" id="modal-feedback">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3>Submit Dining Feedback</h3>
+        <button class="modal-close" onclick="closeModal('modal-feedback')">&times;</button>
+      </div>
+      <form id="form-feedback" onsubmit="handleFeedbackSubmit(event)">
+        <div class="form-group mb-3">
+          <label>Student</label>
+          <select id="feedback-student-select" required></select>
+        </div>
+        <div class="form-group mb-3">
+          <label>Dining Facility</label>
+          <select id="feedback-mess-select" required></select>
+        </div>
+        <div class="form-group mb-3">
+          <label>Rating (1 to 5)</label>
+          <select id="feedback-rating" required>
+            <option value="5">5 - Excellent</option>
+            <option value="4" selected>4 - Very Good</option>
+            <option value="3">3 - Satisfactory</option>
+            <option value="2">2 - Needs Improvement</option>
+            <option value="1">1 - Unsatisfactory</option>
+          </select>
+        </div>
+        <div class="form-group mb-3">
+          <label>Comments</label>
+          <textarea id="feedback-comments" rows="3" placeholder="Provide notes regarding food quality, hygiene, or service punctuality..."></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="closeModal('modal-feedback')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Submit Feedback</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Confirm Delete -->
+  <div class="modal-backdrop" id="modal-confirm">
+    <div class="modal-dialog modal-dialog-sm">
+      <div class="modal-header">
+        <h3 id="modal-confirm-title">Confirm Deletion</h3>
+        <button class="modal-close" onclick="closeModal('modal-confirm')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="modal-confirm-message">Are you sure you want to delete this record?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modal-confirm')">Cancel</button>
+        <button type="button" class="btn btn-danger" id="btn-confirm-delete">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Script -->
+  <script src="assets/script.js"></script>
+</body>
+</html>
